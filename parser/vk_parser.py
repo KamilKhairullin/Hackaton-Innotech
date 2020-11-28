@@ -1,4 +1,5 @@
 import vk
+import vk_api
 from collections import Counter
 
 
@@ -12,11 +13,12 @@ class VkParser:
                          4: "женат/замужем",
                          8: "в гражданском браке",
                          2: "есть друг/есть подруга"}
+        self.pers = {}
 
     def find_main_info(self, user_id):
         person = self.vk_api.users.get(user_ids=user_id, fields='city, country, contacts, connections,'
                                                                 'universities, career,'
-                                                                ' relation, photo_200_orig, sex, bdate, counters')
+                                                                'relation, photo_200_orig, sex, bdate, counters')
 
         if 'deactivated' in person[0]:
             if person[0]['deactivated'] == 'deleted' or person[0]['deactivated'] == 'banned':
@@ -38,7 +40,7 @@ class VkParser:
         home_phone = 'не указано'
         bdate = 'не указано'
         sex = 'не указано'
-        photo_url = person[0]['photo_200_orig']
+        photo_url = [person[0]['photo_200_orig']]
 
         if 'country' in person[0]:
             country = person[0]['country']['title']
@@ -145,14 +147,33 @@ class VkParser:
             'relation': partner,
             'interests': interests
         }
-
+        self.pers = filtered_person
         return filtered_person
 
+    # add photos from profile
+    def get_profile_photos(self, vk_token_outh, user_id):
+        session = vk.Session(access_token=vk_token_outh)
+        vk_api = vk.API(session, v=5.89)
+        person = vk_api.users.get(user_ids=user_id)
+        print(person)
+        if 'deactivated' in person[0]:
+            return 'deactivated'
+
+        if person[0]['is_closed']:
+            return 'private'
+
+        photos = vk_api.photos.getProfile(owner_id=person[0]['id'])
+        for photo in photos['items']:
+            self.pers['photo'].append(photo['sizes'][len(photo['sizes'])-1]['url'])
+        print(self.pers['photo'])
 
 # need service token for vk api
 token = ''
-
+token_photos = ''
 # pass token to parser, find info accepts id of vk user
 
 vk_parser = VkParser(token)
-print(vk_parser.find_main_info(''))
+# parse user account
+vk_parser.find_main_info('')
+# add all other profile photos to existing user info json that we got in prev step
+vk_parser.get_profile_photos(token_photos, '')
