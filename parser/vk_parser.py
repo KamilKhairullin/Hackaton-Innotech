@@ -165,7 +165,7 @@ class VkParser:
         photos = vk_api.photos.getProfile(owner_id=person[0]['id'])
         for photo in photos['items']:
             self.pers['photo'].append(photo['sizes'][len(photo['sizes'])-1]['url'])
-        print(self.pers['photo'])
+        return self.pers
 
 # need service token for vk api
 token = ''
