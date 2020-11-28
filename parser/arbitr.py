@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import os
 import json
+import requests
 
 
 def parse(fname: str):
@@ -86,7 +87,3 @@ def parse(fname: str):
     name = fname.split('.')[0]
     with open(f"{name}.json", "w") as file:
         json.dump(data, file)
-
-
-if __name__ == "__main__":
-    parse("bankrupt.html")
