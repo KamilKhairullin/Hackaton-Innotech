@@ -1,11 +1,12 @@
 import vk
+from collections import Counter
 
 
 class VkParser:
 
     def __init__(self, vk_token):
         self.session = vk.Session(access_token=vk_token)
-        self.vk_api = vk.API(self.session, v=5.62)
+        self.vk_api = vk.API(self.session, v=5.89)
         self.rel_dict = {1: "не женат/не замужем",
                          3: "помолвлен/помолвлена",
                          4: "женат/замужем",
@@ -15,16 +16,22 @@ class VkParser:
     def find_main_info(self, user_id):
         person = self.vk_api.users.get(user_ids=user_id, fields='city, country, contacts, connections,'
                                                                 'universities, career,'
-                                                                ' relation, photo_200_orig, sex, bdate')
+                                                                ' relation, photo_200_orig, sex, bdate, counters')
+
+        if 'deactivated' in person[0]:
+            if person[0]['deactivated'] == 'deleted' or person[0]['deactivated'] == 'banned':
+                return 'Пользователь удален или забанен'
+
+        private = person[0]['is_closed']
 
         # f = open('person.txt', 'w')
         # f.write(str(person))
         name = person[0]['first_name'] + ' ' + person[0]['last_name']
-        country = person[0]['country']['title']
-        city = person[0]['city']['title']
-        jobs = person[0]['career']
-        university = person[0]['universities']
-        relation = person[0]['relation']
+        country = 'не указано'
+        city = 'не указано'
+        jobs = []
+        university = []
+        relation = 0
         contacts = []
         military = 'не указано'
         mob_phone = 'не указано'
@@ -33,10 +40,26 @@ class VkParser:
         sex = 'не указано'
         photo_url = person[0]['photo_200_orig']
 
+        if 'country' in person[0]:
+            country = person[0]['country']['title']
+
+        if 'city' in person[0]:
+            city = person[0]['city']['title']
+
+        if 'career' in person[0]:
+            jobs = person[0]['career']
+
+        if 'universities' in person[0]:
+            university = person[0]['universities']
+
+        if 'relation' in person[0]:
+            relation = person[0]['relation']
+
         if relation in self.rel_dict.keys():
             relation = self.rel_dict[relation]
             if 'relation_partner' in person[0]:
-                part_name = person[0]['relation_partner']['first_name'] + ' ' + person[0]['relation_partner']['last_name']
+                part_name = person[0]['relation_partner']['first_name'] + ' ' + person[0]['relation_partner'][
+                    'last_name']
                 partner = {
                     'relation': relation,
                     'name': part_name
@@ -90,6 +113,23 @@ class VkParser:
         for job in jobs:
             job['city_id'] = self.vk_api.database.getCitiesById(city_ids=job['city_id'])[0]['title']
 
+        interests = []
+
+        if not private:
+            # find interests of user
+            groups = self.vk_api.users.getSubscriptions(user_id=person[0]['id'], extended=True,
+                                                        fields='activity, description')
+
+            if groups['count'] > 0:
+
+                groups = groups['items']
+                for g in groups:
+                    interests.append(g['activity'])
+                interests = dict(Counter(interests))
+
+                for i in interests.keys():
+                    interests[i] = interests[i] / len(groups) * 100
+
         filtered_person = {
 
             'name': name,
@@ -102,17 +142,17 @@ class VkParser:
             'contacts': contacts,
             'military': military,
             'photo': photo_url,
-            'relation': partner
+            'relation': partner,
+            'interests': interests
         }
 
         return filtered_person
 
 
 # need service token for vk api
-# token = ''
-
+token = ''
 
 # pass token to parser, find info accepts id of vk user
 
-# vk_parser = VkParser(token)
-# print(vk_parser.find_main_info('noobmasser'))
+vk_parser = VkParser(token)
+print(vk_parser.find_main_info(''))
