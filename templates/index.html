@@ -12,11 +12,11 @@
   <!-- Google Fonts Roboto -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="static/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
   <!-- Material Design Bootstrap -->
-  <link rel="stylesheet" href="static/css/mdb.min.css">
+  <link rel="stylesheet" href="css/mdb.min.css">
   <!-- Your custom styles (optional) -->
-  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body style="font-family: 'Roboto', sans-serif">
   <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #01497C; height: 70px; font-size: 20px">
@@ -66,20 +66,30 @@
       </div>
       <img id="preview" width="50%">
       <br>
-      <button type="submit" value=Upload class="btn btn-primary">Отправить</button>
+      <button type="button" value=Upload class="btn btn-primary" onclick="showData()">Отправить</button>
     </form>
     <hr>
+    <div class="col" style="height:300px" id="results">
+      <!--<div class="d-flex justify-content-center" id="loadingSpinner">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Загрузка...</span>
+      </div>
+    </div>-->
+    <!--<h2 class="text-muted">Здесь будет выведен результат работы</h2>-->
+    
+    </div>
+    
   </div>
   <!-- End your project here-->
 
   <!-- jQuery -->
-  <script type="text/javascript" src="static/js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/jquery.min.js"></script>
   <!-- Bootstrap tooltips -->
-  <script type="text/javascript" src="static/js/popper.min.js"></script>
+  <script type="text/javascript" src="js/popper.min.js"></script>
   <!-- Bootstrap core JavaScript -->
-  <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
   <!-- MDB core JavaScript -->
-  <script type="text/javascript" src="static/js/mdb.min.js"></script>
+  <script type="text/javascript" src="js/mdb.min.js"></script>
   <!-- Your custom scripts (optional) -->
 
   <script type="text/javascript">
@@ -90,7 +100,110 @@
         URL.revokeObjectURL(prev.src);
       }
     }
-  </script>
 
+    function showData(){
+      var data = {
+        'name': "Иванов Иван Иванович",
+        'country': "Российская Федерация",
+        'bdate': new Date('1988-03-21'),
+        'sex': "мужской",
+        'city': "Махачкала",
+        'job': "Грузчик",
+        'education': "Университет Иннополис",
+        'contacts': "телефон: 89997777777",
+        'military': "служил",
+        'photo': "some photo",
+        'relation': "Иванова Мария Ивановна",
+        'interests': "книги, фильмы"
+      }
+      var trs = [];
+      var t = document.createElement("TABLE");
+      for (var i=0; i<12; i++){
+        trs.push(document.createElement("TR"))
+      }
+      t.id = "info";
+      t.className = "table table-bordered";
+      var tBody = document.createElement("TBODY");
+
+      var thNamel = document.createElement("TH");
+      thNamel.innerHTML = "ФИО";
+      var thName = document.createElement("TH");
+      thName.innerHTML = data["name"];
+      trs[0].appendChild(thNamel);
+      trs[0].appendChild(thName);
+      var thSexl = document.createElement("TH");
+      thSexl.innerHTML = "Пол";
+      var thSex = document.createElement("TH");
+      thSex.innerHTML = data["sex"];
+      trs[1].appendChild(thSexl);
+      trs[1].appendChild(thSex);
+      var thBdatel = document.createElement("TH");
+      thBdatel.innerHTML = "Дата рождения";
+      var thBdate = document.createElement("TH");
+      thBdate.innerHTML = data["bdate"].toString();
+      trs[2].appendChild(thBdatel);
+      trs[2].appendChild(thBdate);
+      var thCountryl = document.createElement("TH");
+      thCountryl.innerHTML = "Страна";
+      var thCountry = document.createElement("TH");
+      thCountry.innerHTML = data["country"];
+      trs[3].appendChild(thCountryl);
+      trs[3].appendChild(thCountry);
+      var thCityl = document.createElement("TH");
+      thCityl.innerHTML = "Город";
+      var thCity = document.createElement("TH");
+      thCity.innerHTML = data["city"];
+      trs[4].appendChild(thCityl);
+      trs[4].appendChild(thCity);
+      var thJobsl = document.createElement("TH");
+      thJobsl.innerHTML = "Должности";
+      var thJobs = document.createElement("TH");
+      thJobs.innerHTML = data["job"];
+      trs[5].appendChild(thJobsl);
+      trs[5].appendChild(thJobs);
+      var thEducationl = document.createElement("TH");
+      thEducationl.innerHTML = "Образование";
+      var thEducation = document.createElement("TH");
+      thEducation.innerHTML = data["education"];
+      trs[6].appendChild(thEducationl);
+      trs[6].appendChild(thEducation);
+      var thContactsl = document.createElement("TH");
+      thContactsl.innerHTML = "Контакты";
+      var thContacts = document.createElement("TH");
+      thContacts.innerHTML = data["contacts"];
+      trs[7].appendChild(thContactsl);
+      trs[7].appendChild(thContacts);
+      var thMilitaryl = document.createElement("TH");
+      thMilitaryl.innerHTML = "Военная служба";
+      var thMilitary = document.createElement("TH");
+      thMilitary.innerHTML = data["military"];
+      trs[8].appendChild(thMilitaryl);
+      trs[8].appendChild(thMilitary);
+      var thPhotol = document.createElement("TH");
+      thPhotol.innerHTML = "Фото";
+      var thPhoto = document.createElement("TH");
+      thPhoto.innerHTML = data["photo"];
+      trs[9].appendChild(thPhotol);
+      trs[9].appendChild(thPhotol);
+      var thRelationl = document.createElement("TH");
+      thRelationl.innerHTML = "Отношения";
+      var thRelation = document.createElement("TH");
+      thRelation.innerHTML = data["relation"];
+      trs[10].appendChild(thRelationl);
+      trs[10].appendChild(thRelation);
+      var thInterestl = document.createElement("TH");
+      thInterestl.innerHTML = "Интересы";
+      var thInterest = document.createElement("TH");
+      thInterest.innerHTML = data["interests"];
+      trs[11].appendChild(thInterestl);
+      trs[11].appendChild(thInterest);
+      for (i = 0; i<12; i++){
+        tBody.appendChild(trs[i]);
+      };
+      t.appendChild(tBody);
+      var divRes = document.getElementById("results");
+      divRes.appendChild(t);
+    }
+  </script>
 </body>
 </html>
