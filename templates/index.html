@@ -10,21 +10,21 @@
   <!-- Google Fonts Roboto -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="static/css/bootstrap.min.css">
   <!-- Material Design Bootstrap -->
-  <link rel="stylesheet" href="css/mdb.min.css">
+  <link rel="stylesheet" href="static/css/mdb.min.css">
   <!-- Your custom styles (optional) -->
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="static/css/style.css">
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #454ADE; height: 100px; font-size: 20px">
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="index.html">Найти клиента</a>
+          <a class="nav-link" href="templates/index.html">Найти клиента</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="load_links.html">Добавить ссылки</a>
+          <a class="nav-link" href="templates/load_links.html">Добавить ссылки</a>
         </li>
       </ul>
     </div>
@@ -34,25 +34,25 @@
     <h4>Поиск клиента</h4>
     <p>* - обязательные поля</p>
     <hr>
-    <form>
+    <form action="" method=post enctype=multipart/form-data>
       <div class="form-group">
         <label for="photo">Фото*</label>
-        <input type="file" class="form-control-file"  id="photo" placeholder="Фото" accept="image/*" onchange="previewImage(event)">
+        <input type="file" name=file class="form-control-file"  id="photo" placeholder="Фото" accept="image/*" onchange="previewImage(event)">
       </div>
       <img id="preview" width="100%"/>
-      <button type="submit" class="btn btn-primary">Отправить</button>
+      <button type="submit" value=Upload class="btn btn-primary">Отправить</button>
     </form>
   </div>
   <!-- End your project here-->
 
   <!-- jQuery -->
-  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="static/js/jquery.min.js"></script>
   <!-- Bootstrap tooltips -->
-  <script type="text/javascript" src="js/popper.min.js"></script>
+  <script type="text/javascript" src="static/js/popper.min.js"></script>
   <!-- Bootstrap core JavaScript -->
-  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
   <!-- MDB core JavaScript -->
-  <script type="text/javascript" src="js/mdb.min.js"></script>
+  <script type="text/javascript" src="static/js/mdb.min.js"></script>
   <!-- Your custom scripts (optional) -->
 
   <script type="text/javascript">
@@ -62,29 +62,6 @@
       prev.onload = function() {
         URL.revokeObjectURL(prev.src);
       }
-    }
-
-    function send(){
-      var file = document.querySelector('input[type=file]').files[0];
-      var reader = new FileReader;
-      reader.readAsDataURL(blob);
-      var data = reader.result;
-      var xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState == XMLHttpRequest.DONE) {
-          alert(xhr.responseText);
-          //process data
-        };
-      };
-      var url = "";
-      xhr.setRequestHeader("Cache-Control", "no-cache");
-      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-      xhr.setRequestHeader("Content-Type", "multipart/form-data");
-      xhr.setRequestHeader("X-File-Name", file.fileName);
-      xhr.setRequestHeader("X-File-Size", file.fileSize);
-      xhr.setRequestHeader("X-File-Type", file.type);
-      xhr.open("POST", url, true);
-      xhr.send(data);
     }
   </script>
 

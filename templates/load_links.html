@@ -129,9 +129,9 @@
       var xhr = new XMLHttpRequest();
       var url = "http://kaz-ural-go.asanali99.lclients.ru/submission_get";
       xhr.open("POST", url, true);
-      xhr.setRequestHeader("Content-Type", "application/json");//PRINT VALUES
-      
-        xhr.send(data);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      var data = {"links":links};
+      xhr.send(data);
       statusText.innerHTML = "Ссылки успешно отправлены.";
     }
   </script>
