@@ -49,9 +49,13 @@ class FsspProvider(Provider):
             region = 50
         cnt = 0
         res = []
-        while not res and cnt < 10:
+        while not res and cnt < 5:
             res = FsspProvider.provide_data(first_name, last_name, region, birthdate)
             cnt += 1
             time.sleep(0.5)
         if len(res):
+            res = {'Задолженности': res}
+            return json.dumps(res)
+        else:
+            res = {'Задолженности': []}
             return json.dumps(res)

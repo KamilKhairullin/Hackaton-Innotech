@@ -2,6 +2,7 @@ import json
 import os
 from financial_profile.providers.fsspProvider import FsspProvider
 from financial_profile.providers.terroristProvider import TerroristProvider
+from financial_profile.providers.trialsProvider import TrialsProvider
 from social_parsers.vkParser import VkParser
 import urllib.request
 
@@ -15,7 +16,7 @@ def get_data(user_id: str):
     vk_parser = VkParser(token)
     # parse user account
     data = vk_parser.find_main_info(user_id)
-    providers: list = [FsspProvider, TerroristProvider]
+    providers: list = [FsspProvider, TerroristProvider, TrialsProvider]
     res = [json.dumps(data)]
     for provider in providers:
         ex_data = provider.use(**data)
