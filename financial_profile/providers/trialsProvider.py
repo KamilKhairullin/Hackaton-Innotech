@@ -1,7 +1,7 @@
 from financial_profile.providers.provider import Provider
 
 
-class TrailsProvider(Provider):
+class TrialsProvider(Provider):
     @staticmethod
     def provide_data(**kwargs):
         pass

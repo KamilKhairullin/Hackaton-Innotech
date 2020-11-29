@@ -28,7 +28,7 @@ class FsspProvider(Provider):
         res = []
         for d in debts:
             if d["result"]:
-                res.append(d["result"])
+                res.append(d["result"]['subject'])
         return res
 
     @staticmethod
