@@ -15,9 +15,9 @@ class VkParser:
         self.pers = {}
 
     def find_main_info(self, user_id):
-        person = self.vk_api.users.get(user_ids=user_id, fields='city, country, contacts, connections,'
-                                                                'universities, career,'
-                                                                'relation, photo_200_orig, sex, bdate, counters')
+        person = self.vk_api.users.get(user_ids=user_id, lang="ru", fields='city, country, contacts, connections,'
+                                                                           'universities, career,'
+                                                                           'relation, photo_200_orig, sex, bdate, counters')
 
         if 'deactivated' in person[0]:
             if person[0]['deactivated'] == 'deleted' or person[0]['deactivated'] == 'banned':
@@ -113,14 +113,14 @@ class VkParser:
         # change id to city title
         # country not working because of authorization error
         for job in jobs:
-            job['city_id'] = self.vk_api.database.getCitiesById(city_ids=job['city_id'])[0]['title']
+            job['city_id'] = self.vk_api.database.getCitiesById(city_ids=job['city_id'], lang='ru')[0]['title']
 
         interests = []
 
         if not private:
             # find interests of user
             groups = self.vk_api.users.getSubscriptions(user_id=person[0]['id'], extended=True,
-                                                        fields='activity, description')
+                                                        fields='activity, description', lang='ru')
 
             if groups['count'] > 0:
 
@@ -167,4 +167,4 @@ class VkParser:
         photos = vk_api.photos.getProfile(owner_id=person[0]['id'])
         for photo in photos['items']:
             self.pers['photo'].append(photo['sizes'][len(photo['sizes']) - 1]['url'])
-        return self.pers
+        return self.pers['photo']

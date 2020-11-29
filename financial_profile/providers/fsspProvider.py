@@ -1,3 +1,5 @@
+import time
+
 import requests
 import json
 import os
@@ -8,6 +10,8 @@ from financial_profile.providers.provider import Provider
 class FsspProvider(Provider):
     @staticmethod
     def provide_data(first_name: str, last_name: str, region: int, birthdate: str):
+        first_name = first_name.upper()
+        last_name = last_name.upper()
         req = f'?token={os.environ["fssp_token"]}&' \
               f'region={region}&' \
               f'firstname={first_name}&' \
@@ -23,7 +27,8 @@ class FsspProvider(Provider):
         debts = resp_data['response']['result']
         res = []
         for d in debts:
-            res.append(d["result"])
+            if d["result"]:
+                res.append(d["result"])
         return res
 
     @staticmethod
@@ -32,6 +37,12 @@ class FsspProvider(Provider):
         last_name = kwargs.get('lastname')
         region = kwargs.get('region')
         birthdate = kwargs.get('birthdate')
-        res = FsspProvider.provide_data(first_name, last_name, region, birthdate)
+        region = 43
+        cnt = 0
+        res = []
+        while not res and cnt < 10:
+            res = FsspProvider.provide_data(first_name, last_name, region, birthdate)
+            cnt += 1
+            time.sleep(1)
         if len(res):
             return json.dumps(res)
