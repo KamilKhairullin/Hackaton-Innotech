@@ -9,7 +9,6 @@ def get_data(user_id: str):
     os.environ['fssp_token'] = 'W9kswdsrfD2J'
     # need service token for vk api
     token = ''
-    token_photos = ''
     # pass token to social_parsers, find info accepts id of vk user
     user_id = 'id486226681'
     vk_parser = VkParser(token)
@@ -22,15 +21,13 @@ def get_data(user_id: str):
 
 
 def get_photos(user_id: str):
-    os.environ['fssp_token'] = ''
     # need service token for vk api
     token = ''
-    token_photos = ''
     # pass token to social_parsers, find info accepts id of vk user
     user_id = 'id486226681'
     vk_parser = VkParser(token)
     vk_parser.find_main_info(user_id)
-    photos = vk_parser.get_profile_photos(token_photos, user_id)
+    photos = vk_parser.get_profile_photos(user_id)
     cnt = 0
     for photo in photos:
         response = urllib.request.urlopen(photo)
