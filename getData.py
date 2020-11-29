@@ -16,9 +16,12 @@ def get_data(user_id: str):
     # parse user account
     data = vk_parser.find_main_info(user_id)
     providers: list = [FsspProvider, TerroristProvider]
-    res = [data]
+    res = [json.dumps(data)]
     for provider in providers:
-        res.append(provider.use(**data))
+        ex_data = provider.use(**data)
+        if ex_data:
+            res.append(ex_data)
+    print(res)
     return res
 
 
