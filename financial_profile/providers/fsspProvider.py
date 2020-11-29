@@ -35,14 +35,19 @@ class FsspProvider(Provider):
     def use(**kwargs) -> str:
         first_name = kwargs.get('firstname')
         last_name = kwargs.get('lastname')
-        region = kwargs.get('region')
+        city = kwargs.get('city')
         birthdate = kwargs.get('birthdate')
-        region = 43
+        try:
+            with open('financial_profile/data/city_number.json', 'r') as f:
+                cr = json.load(f)
+                region = int(cr[city])
+        except KeyError:
+            region = 50
         cnt = 0
         res = []
         while not res and cnt < 10:
             res = FsspProvider.provide_data(first_name, last_name, region, birthdate)
             cnt += 1
-            time.sleep(1)
+            time.sleep(0.5)
         if len(res):
             return json.dumps(res)

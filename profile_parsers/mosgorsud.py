@@ -9,7 +9,7 @@ def parse():
     def clean(line: str) -> str:
         res = ""
         l = 0
-        acceptable_symbols = ['.', '(', ')']
+        acceptable_symbols = ['.', '(', ')', '-', '/']
         for c in line:
             if c.isalnum() or c.isalpha() or c in acceptable_symbols:
                 res += c
@@ -34,7 +34,7 @@ def parse():
         return res
 
     data = []
-    for i in range(1, 155):
+    for i in range(1, 156):
         url = f'https://mos-gorsud.ru/rs/zamoskvoreckij/services/cases/criminal?page={i}'
         page = urllib.request.urlopen(url).read().decode('utf-8')
 
@@ -51,7 +51,7 @@ def parse():
                 data.append({'defendant': dwa[0], 'article': dwa[1], 'case': case, 'status': status})
         print(f"Page {i} is parsed")
         time.sleep(1)
-    with open('trails.json', 'wb') as f:
+    with open('../financial_profile/data/trails.json', 'w') as f:
         json.dump(data, f)
 
 

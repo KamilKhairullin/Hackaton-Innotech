@@ -1,3 +1,4 @@
+import json
 import os
 from financial_profile.providers.fsspProvider import FsspProvider
 from financial_profile.providers.terroristProvider import TerroristProvider
@@ -8,7 +9,7 @@ import urllib.request
 def get_data(user_id: str):
     os.environ['fssp_token'] = 'W9kswdsrfD2J'
     # need service token for vk api
-    token = ''
+    token = '4ab0cb4a4ab0cb4a4ab0cb4ac94ac5fb6044ab04ab0cb4a1572d740b850b9712aee47bb'
     # pass token to social_parsers, find info accepts id of vk user
     user_id = 'id486226681'
     vk_parser = VkParser(token)
@@ -38,4 +39,4 @@ def get_photos(user_id: str):
 
 
 if __name__ == '__main__':
-    get_photos('id268922389')
+    get_data('id268922389')
