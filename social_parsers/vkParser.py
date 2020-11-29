@@ -152,11 +152,13 @@ class VkParser:
         return filtered_person
 
     # add photos from profile
-    def get_profile_photos(self, vk_token_outh, user_id):
-        session = vk.Session(access_token=vk_token_outh)
+    def get_profile_photos(self, user_id):
+        app_id, login, password = '7680042', '+77011907534', 'рфслферщт2020'
+        session = vk.AuthSession(app_id, login, password, scope='photos')
         vk_api = vk.API(session, v=5.89)
+        # session = vk.Session(access_token=vk_token_outh)
+        # vk_api = vk.API(session, v=5.89)
         person = vk_api.users.get(user_ids=user_id)
-        print(person)
         if 'deactivated' in person[0]:
             return 'deactivated'
 
@@ -167,4 +169,5 @@ class VkParser:
         photos = vk_api.photos.getProfile(owner_id=person[0]['id'])
         for photo in photos['items']:
             self.pers['photo'].append(photo['sizes'][len(photo['sizes']) - 1]['url'])
+
         return self.pers['photo']
