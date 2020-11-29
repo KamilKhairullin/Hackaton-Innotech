@@ -56,17 +56,56 @@
   </div>
   <br>
   <div class="container">
+    <h4>Добавление ссылок на аккаунты</h4>
+    <hr>
+  
     <h2 id="startWork">Поиск клиента</h2>
     <p>* - обязательные поля</p>
     <hr>
     <form action="" method=post enctype=multipart/form-data>
+      <div id="allLinks">
+      <div class="form-group">
+        <input type="text" class="form-control" id="link1" placeholder="Ссылка 1">
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" id="link2" placeholder="Ссылка 2">
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" id="link3" placeholder="Ссылка 3">
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" id="link4" placeholder="Ссылка 4">
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" id="link5" placeholder="Ссылка 5">
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" id="link6" placeholder="Ссылка 6">
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" id="link7" placeholder="Ссылка 7">
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" id="link8" placeholder="Ссылка 8">
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" id="link9" placeholder="Ссылка 9">
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" id="link10" placeholder="Ссылка 10">
+      </div>
+    </div>
+      <button type="button" class="btn btn-primary" onclick="addLink()">Добавить ссылку</button>
+      <br>
+      <hr>
+      <p id="status"></p>
       <div class="form-group">
         <label for="photo">Фото*</label>
         <input type="file" name=file class="form-control-file"  id="photo" placeholder="Фото" accept="image/*" onchange="previewImage(event)">
       </div>
       <img id="preview" width="50%">
       <br>
-      <button type="button" value=Upload class="btn btn-primary" onclick="showData()">Отправить</button>
+      <button type="submit" value=Upload class="btn btn-primary" onclick="showData()">Отправить</button>
     </form>
     <hr>
     <div class="col" style="height:300px" id="results">
@@ -93,12 +132,27 @@
   <!-- Your custom scripts (optional) -->
 
   <script type="text/javascript">
+    var counter = 10;
     function previewImage(event){
       var prev = document.getElementById('preview');
       prev.src = URL.createObjectURL(event.target.files[0]);
       prev.onload = function() {
         URL.revokeObjectURL(prev.src);
       }
+    }
+
+    function addLink(){
+      counter++;
+      var mainDiv = document.getElementById("allLinks");
+      var formGroup = document.createElement("DIV");
+      formGroup.className = "form-group";
+      var txt = document.createElement("INPUT");
+      txt.type = "text";
+      txt.className = "form-control";
+      txt.id = "link"+counter.toString();
+      txt.placeholder = "Ссылка "+counter.toString();
+      formGroup.appendChild(txt);
+      mainDiv.appendChild(formGroup);
     }
 
     function showData(){
