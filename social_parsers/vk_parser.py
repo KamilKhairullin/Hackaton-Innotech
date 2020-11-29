@@ -1,5 +1,4 @@
 import vk
-import vk_api
 from collections import Counter
 
 
@@ -28,7 +27,8 @@ class VkParser:
 
         # f = open('person.txt', 'w')
         # f.write(str(person))
-        name = person[0]['first_name'] + ' ' + person[0]['last_name']
+        firstname = person[0]['first_name']
+        lastname = person[0]['last_name']
         country = 'не указано'
         city = 'не указано'
         jobs = []
@@ -134,9 +134,10 @@ class VkParser:
 
         filtered_person = {
 
-            'name': name,
+            'firstname': firstname,
+            'lastname': lastname,
             'country': country,
-            'bdate': bdate,
+            'birthdate': bdate,
             'sex': sex,
             'city': city,
             'job': jobs,
@@ -162,18 +163,8 @@ class VkParser:
         if person[0]['is_closed']:
             return 'private'
 
+        self.pers['photo'] = []
         photos = vk_api.photos.getProfile(owner_id=person[0]['id'])
         for photo in photos['items']:
-            self.pers['photo'].append(photo['sizes'][len(photo['sizes'])-1]['url'])
+            self.pers['photo'].append(photo['sizes'][len(photo['sizes']) - 1]['url'])
         return self.pers
-
-# need service token for vk api
-token = ''
-token_photos = ''
-# pass token to parser, find info accepts id of vk user
-
-vk_parser = VkParser(token)
-# parse user account
-vk_parser.find_main_info('')
-# add all other profile photos to existing user info json that we got in prev step
-vk_parser.get_profile_photos(token_photos, '')

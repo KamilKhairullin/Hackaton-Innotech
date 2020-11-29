@@ -8,7 +8,7 @@ from financial_profile.providers.provider import Provider
 class FsspProvider(Provider):
     @staticmethod
     def provide_data(first_name: str, last_name: str, region: int, birthdate: str):
-        req = f'?token={os.environ["token"]}&' \
+        req = f'?token={os.environ["fssp_token"]}&' \
               f'region={region}&' \
               f'firstname={first_name}&' \
               f'lastname={last_name}&' \
