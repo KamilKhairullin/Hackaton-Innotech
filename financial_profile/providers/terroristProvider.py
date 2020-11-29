@@ -23,4 +23,4 @@ class TerroristProvider(Provider):
         last_name = kwargs.get('lastname')
         birthdate = kwargs.get('birthdate')
         if TerroristProvider.provide_data(first_name, last_name, birthdate):
-            return 'is terrorist'
+            return 'Есть в списке террористов и экстремистов (комплайнс проверка по 115-ФЗ)'

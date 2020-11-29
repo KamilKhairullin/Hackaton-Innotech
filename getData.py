@@ -17,8 +17,10 @@ def get_data(user_id: str):
     data = vk_parser.find_main_info(user_id)
     print(data)
     providers: list = [FsspProvider, TerroristProvider]
+    res = []
     for provider in providers:
-        print(provider.use(**data))
+        res.append(provider.use(**data))
+    return res
 
 
 def get_photos(user_id: str):
